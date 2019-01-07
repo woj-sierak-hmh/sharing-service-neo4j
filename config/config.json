@@ -1,0 +1,13 @@
+{
+  "app": {  
+  },
+  "local": {
+    "port": 8080
+  },
+  "test": {
+    "int": {
+      "port": 3000,
+      "host": "http://localhost"
+    }
+  }
+}
