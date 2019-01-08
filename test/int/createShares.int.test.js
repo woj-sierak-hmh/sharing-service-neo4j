@@ -13,7 +13,7 @@ describe('createShare', () => {
     //await teardownIntTest();
   });
 
-  describe('as a teacher', async () => {
+  describe('as a teacher owner of an asset I', async () => {
     it('should be able to share asset with other teachers in the same district A', async () => {
       const district = 'districtA';
       const creator = 'teacherA1';

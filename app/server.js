@@ -77,6 +77,26 @@ router.post('/v2/control/:tenantRefId/user/:sharerRefId/assetType/:assetType/:as
   // driver.close();
 });
 
+router.get('/v2/access/tenant/:tenantRefId/user/:userRefId/asset/:assetType/assets', async ctx => {
+  try {
+    const result = await session.run(
+      /*
+MATCH (:User {userRefId:"teacherB3"})<-[share:SHARED_WITH]-(asset:Asset {assetType:"PLAN"})<-[:MASTER_OF]-(:Organization {orgRefId:"districtB"})
+WITH share, asset
+MATCH (asset)<-[:CREATOR_OF]-(owner:User)
+RETURN asset, share, owner
+      */
+    );
+  } catch (err) {
+    console.log('=================Error================');
+    console.log(err);
+    console.log('======================================');
+    ctx.status = 500;
+    ctx.body = 'Apparently something went wrong...' + err.code;
+  }
+  session.close();
+});
+
 // const personName = 'Wojtek';
 // const resultPromise = session.run(
   //   'CREATE (a:Osoba {name: $name}) RETURN a',
