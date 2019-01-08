@@ -14,9 +14,9 @@ describe('createShare', () => {
   });
 
   describe('as a teacher', async () => {
-    it('should be able to share asset with other teacher in the same district', async () => {
-      const district = 'district2';
-      const creator = 'teacher1';
+    it('should be able to share asset with other teachers in the same district A', async () => {
+      const district = 'districtA';
+      const creator = 'teacherA1';
       const resourceType = 'PLAN';
       const resourceId = 'plan' + Math.ceil(Math.random() * 100);
       //const query = host +
@@ -29,7 +29,28 @@ describe('createShare', () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"recipientRefIds": ["teacherA1", "teacherA2"]})
+        body: JSON.stringify({"recipientRefIds": ["teacherA2", "teacherA3B1"]})
+      });
+
+      expect(fetchResult.status).toBe(202);
+    });
+
+    it('should be able to share asset with other teachers in the same district B', async () => {
+      const district = 'districtB';
+      const creator = 'teacherA3B1';
+      const resourceType = 'PLAN';
+      const resourceId = 'plan' + Math.ceil(Math.random() * 100);
+      //const query = host +
+      const query = 'http://localhost:8080/' +
+                    `v2/control/${district}/` +
+                    `user/${creator}` +
+                    `/assetType/${resourceType}/${resourceId}/sharerSettings`;
+      const fetchResult = await fetch(query, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"recipientRefIds": ["teacherB2", "teacherB3"]})
       });
 
       expect(fetchResult.status).toBe(202);

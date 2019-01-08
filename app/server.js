@@ -9,7 +9,7 @@ app.use(bodyParser());
 const router = new koaRouter();
 
 const uri = 'bolt://localhost';
-const driver = neo4j.driver(uri, neo4j.auth.basic('neo4j', 'karmen'));
+const driver = neo4j.driver(uri, neo4j.auth.basic('neo4j', 'karen'));
 const session = driver.session();
 
 /* 
@@ -36,27 +36,10 @@ const session = driver.session();
   verifies whether it gets valid guids:
   12345678-1234-1234-1234-123456789012
 
-  MERGE (org:Organization {orgRefId: "tenantRefId"})
-  MERGE (creator:User {userRefId: "sharerRefId"})
-  MERGE (asset:Asset {assetRefId: "assetRefId", assetType: "assetType", isActive: "true"})
-  MERGE (creator)-[:CREATOR_OF]->(asset)
-  MERGE (recipient:User {userRefId: "recipientId"})
-  MERGE (asset)-[:SHARED_WITH {type:"READ", createdDate:{new Date()}}]->(recipient)
-
-  // sample query that works in neo4j web browser
-  MERGE (org:Organization {orgRefId: "district1"})
-  MERGE (asset:Asset {assetRefId: "plan1", assetType: "PLAN", isActive: "true"})
-  MERGE (org)-[:MASTER_OF]->(asset)
-  MERGE (creator:User {userRefId: "teacher1"})
-  MERGE (creator)-[:CREATOR_OF]->(asset)
-  MERGE (recipient:User {userRefId: "teacher2"})
-  MERGE (asset)-[:SHARED_WITH {type:"READ", createdDate:"2019-01-05T12:03:02.075Z"}]->(recipient)
-
   $ curl -vX POST http://localhost:8080/v2/control/district1/user/teacher1/assetType/PLAN/plan456/sharerSettings
 */
 router.post('/v2/control/:tenantRefId/user/:sharerRefId/assetType/:assetType/:assetRefId/sharerSettings', async (ctx, next) => {
   // TODO validation of params
-  // TODO body payload and date
 
   console.log('ctx.request.body:', ctx.request.body);
   const recipientRefIds = ctx.request.body.recipientRefIds;
@@ -64,16 +47,14 @@ router.post('/v2/control/:tenantRefId/user/:sharerRefId/assetType/:assetType/:as
 
   try {
     const result = await session.run(
-      'MERGE (org:Organization {orgRefId: $tenantRefId}) ' +
-      'MERGE (asset:Asset {assetRefId: $assetRefId, assetType: $assetType, isActive: "true"}) ' +
+      'MERGE (org:Organization {orgRefId: {tenantRefId}}) ' +
+      'MERGE (asset:Asset {assetRefId: {assetRefId}, assetType: {assetType}, isActive: "true"}) ' +
       'MERGE (org)-[:MASTER_OF]->(asset) ' +
-      'MERGE (creator:User {userRefId: $sharerRefId}) ' +
+      'MERGE (creator:User {userRefId: {sharerRefId}}) ' +
       'MERGE (creator)-[:CREATOR_OF]->(asset) ' +
-      // 'FOREACH (ref IN {recipients} | ' + 
-      // '  MERGE (recipient:User {userRefId: ref}) ' +
-      // '  MERGE (asset)-[:SHARED_WITH {type: "READ, createdDate: $createdDate}]->(recipient) )',
-     'MERGE (recipient:User {userRefId: "teacher3"})' +
-     'MERGE (asset)-[:SHARED_WITH {type:"READ", createdDate: $createdDate}]->(recipient)',
+      'FOREACH (ref IN {recipients} | ' + 
+      '  MERGE (recipient:User {userRefId: ref}) ' +
+      '  MERGE (asset)-[:SHARED_WITH {type:"READ", createdDate: $createdDate}]->(recipient))',
       {
         ...ctx.params, 
         createdDate: new Date().toISOString(),
@@ -91,7 +72,9 @@ router.post('/v2/control/:tenantRefId/user/:sharerRefId/assetType/:assetType/:as
     ctx.body = 'Apparently something went wrong...' + err.code;
   }
   session.close();
-  driver.close();
+  
+  // on application exit:
+  // driver.close();
 });
 
 // const personName = 'Wojtek';
