@@ -13,7 +13,7 @@ describe('createShare', () => {
     //await teardownIntTest();
   });
 
-  describe('as a teacher owner of an asset I', async () => {
+  describe('As a teacher owner of an asset, I...', async () => {
     it('should be able to share asset with other teachers in the same district A', async () => {
       const district = 'districtA';
       const creator = 'teacherA1';
@@ -40,7 +40,7 @@ describe('createShare', () => {
       const creator = 'teacherA3B1';
       const resourceType = 'PLAN';
       const resourceId = 'plan' + Math.ceil(Math.random() * 100);
-      //const query = host +
+      
       const query = 'http://localhost:8080/' +
                     `v2/control/${district}/` +
                     `user/${creator}` +

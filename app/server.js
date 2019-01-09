@@ -77,16 +77,26 @@ router.post('/v2/control/:tenantRefId/user/:sharerRefId/assetType/:assetType/:as
   // driver.close();
 });
 
-router.get('/v2/access/tenant/:tenantRefId/user/:userRefId/asset/:assetType/assets', async ctx => {
-  try {
-    const result = await session.run(
-      /*
+/*
 MATCH (:User {userRefId:"teacherB3"})<-[share:SHARED_WITH]-(asset:Asset {assetType:"PLAN"})<-[:MASTER_OF]-(:Organization {orgRefId:"districtB"})
 WITH share, asset
 MATCH (asset)<-[:CREATOR_OF]-(owner:User)
-RETURN asset, share, owner
-      */
+RETURN asset.assetRefId, share.createdDate, owner.userRefId
+*/
+router.get('/v2/access/tenant/:tenantRefId/user/:userRefId/asset/:assetType/assets', async ctx => {
+  console.log('params-->', ctx.params);
+  try {
+    const results = await session.run(
+      'MATCH (:User {userRefId: {userRefId}})<-[share:SHARED_WITH]-(asset:Asset {assetType: {assetType}})<-[:MASTER_OF]-(:Organization {orgRefId: {tenantRefId}}) ' +
+      'WITH share, asset ' +
+      'MATCH (asset)<-[:CREATOR_OF]-(owner:User) ' +
+      'RETURN asset.assetRefId, share.createdDate, owner.userRefId',
+
+      ctx.params
     );
+    const singleRecord = results.records[0];
+    console.log(singleRecord);
+    ctx.status = 200;
   } catch (err) {
     console.log('=================Error================');
     console.log(err);
