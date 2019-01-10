@@ -18,7 +18,7 @@ describe('createShare', () => {
       const district = 'districtA';
       const creator = 'teacherA1';
       const resourceType = 'PLAN';
-      const resourceId = 'plan' + Math.ceil(Math.random() * 100);
+      const resourceId = 'plan1';
       //const query = host +
       const query = 'http://localhost:8080/' +
                     `v2/control/${district}/` +
@@ -35,11 +35,32 @@ describe('createShare', () => {
       expect(fetchResult.status).toBe(202);
     });
 
+    it('should be able to share asset with other teachers in the same district A', async () => {
+      const district = 'districtA';
+      const creator = 'teacherA3B1';
+      const resourceType = 'PLAN';
+      const resourceId = 'plan2';
+      //const query = host +
+      const query = 'http://localhost:8080/' +
+                    `v2/control/${district}/` +
+                    `user/${creator}` +
+                    `/assetType/${resourceType}/${resourceId}/sharerSettings`;
+      const fetchResult = await fetch(query, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"recipientRefIds": ["teacherA1", "teacherA2"]})
+      });
+
+      expect(fetchResult.status).toBe(202);
+    });
+
     it('should be able to share asset with other teachers in the same district B', async () => {
       const district = 'districtB';
       const creator = 'teacherA3B1';
       const resourceType = 'PLAN';
-      const resourceId = 'plan' + Math.ceil(Math.random() * 100);
+      const resourceId = 'plan3';
       
       const query = 'http://localhost:8080/' +
                     `v2/control/${district}/` +

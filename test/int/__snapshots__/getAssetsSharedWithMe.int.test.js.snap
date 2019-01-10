@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getShares As a teacher recipient, I... should be able to retrieve assets shared with me 1`] = `
+Object {
+  "assets": Array [
+    Object {
+      "assetRefId": "plan2",
+      "assetType": "PLAN",
+      "shareDate": Any<Date>,
+      "shareRefId": "teacherA3B1",
+    },
+    Object {
+      "assetRefId": "plan1",
+      "assetType": "PLAN",
+      "shareDate": Any<Date>,
+      "shareRefId": "teacherA1",
+    },
+  ],
+}
+`;

@@ -21,7 +21,17 @@ describe('getShares', () => {
         method: 'GET'
       });
 
+      const parsedResult = await fetchResult.json();
+
+      console.log('========================')
+      console.log(parsedResult);
+      console.log('========================')
+
       expect(fetchResult.status).toBe(200);
+      //expect(parsedResult).toMatchSnapshot();
+      expect(parsedResult).toMatchSnapshot({
+        shareDate: expect.any(Date),
+      });
     });
   });
 });

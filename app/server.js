@@ -90,13 +90,21 @@ router.get('/v2/access/tenant/:tenantRefId/user/:userRefId/asset/:assetType/asse
       'MATCH (:User {userRefId: {userRefId}})<-[share:SHARED_WITH]-(asset:Asset {assetType: {assetType}})<-[:MASTER_OF]-(:Organization {orgRefId: {tenantRefId}}) ' +
       'WITH share, asset ' +
       'MATCH (asset)<-[:CREATOR_OF]-(owner:User) ' +
-      'RETURN asset.assetRefId, share.createdDate, owner.userRefId',
-
+      'RETURN asset.assetRefId AS assetRefId, asset.assetType AS assetType, ' +
+      'share.createdDate AS shareDate, owner.userRefId AS sharerRefId',
       ctx.params
     );
-    const singleRecord = results.records[0];
-    console.log(singleRecord);
+    
+    const assets = results.records.map(r => {
+      return {
+        assetRefId: r.get('assetRefId'),
+        assetType: r.get('assetType'),
+        shareRefId: r.get('sharerRefId'),
+        shareDate: r.get('shareDate')
+      };
+    });
     ctx.status = 200;
+    ctx.body = {assets};
   } catch (err) {
     console.log('=================Error================');
     console.log(err);
@@ -106,28 +114,6 @@ router.get('/v2/access/tenant/:tenantRefId/user/:userRefId/asset/:assetType/asse
   }
   session.close();
 });
-
-// const personName = 'Wojtek';
-// const resultPromise = session.run(
-  //   'CREATE (a:Osoba {name: $name}) RETURN a',
-  //   {name: personName}
-  // );
-  
-  // resultPromise.then(results => {
-    //   session.close();
-    
-    //   const singleRecord = results.records[0];
-    //   const node = singleRecord.get(0);
-    //   console.log('===>', node.properties.name);
-    
-    //   // on application exit:
-    //   driver.close();
-    // });
-    
-    // process.on('uncaughtException', function (err) {
-      //   console.log('error --> ', err);
-// }); 
-
 
 app.use(router.routes());
 // responds to OPTIONS requests
