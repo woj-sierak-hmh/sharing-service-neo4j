@@ -23,3 +23,22 @@ Remove everything:
 
 Add constraint:
 `CREATE constraint ON (a:Asset) ASSERT a.assetRefId IS UNIQUE`
+
+### TODO List:
+
+#### MVP:
+
+In order of priority:
+[v] Setup docker compose with Neo4j image in one container and node app in another
+[v] Test connection between Node and Neo4j
+[v] Build db query and prototype endpoint for creating the share + tests
+[v] Build db query and prototype endpoint for getting assets shared with me + tests
+[x] Build db query and prototype endpoint for deleting assets I own + tests
+[x] Add district constraint to all queries
+[x] Add input data validation
+[x] Move from common.js to es modules with babel
+[x] Add linter and precommit hooks
+[x] Refactor koa app, organize routes, env based configuration
+
+Notes:
+[x] Tests should be independent from each other - use beforeAll/Each to populate db with seed data

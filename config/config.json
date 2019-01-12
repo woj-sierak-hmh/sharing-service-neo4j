@@ -5,8 +5,8 @@
     "port": 8080
   },
   "test": {
-    "int": {
-      "port": 3000,
+    "local": {
+      "port": 8080,
       "host": "http://localhost"
     }
   }

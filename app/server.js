@@ -9,7 +9,7 @@ app.use(bodyParser());
 const router = new koaRouter();
 
 const uri = 'bolt://localhost';
-const driver = neo4j.driver(uri, neo4j.auth.basic('neo4j', 'karen'));
+const driver = neo4j.driver(uri, neo4j.auth.basic('neo4j', 'karmen'));
 const session = driver.session();
 
 /* 

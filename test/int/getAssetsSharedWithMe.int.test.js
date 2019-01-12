@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const { setupIntTest, teardownIntTest } = require('./utils');
+//const { setupIntTest, teardownIntTest } = require('./utils');
 const config = require('../../app/config.js');
 
 const host = `${config.get('test:int:host')}:${config.get('test:int:port')}/`;

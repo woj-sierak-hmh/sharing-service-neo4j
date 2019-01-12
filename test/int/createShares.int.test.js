@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const { setupIntTest, teardownIntTest } = require('./utils');
+const { intSetup, request } = require('./utils');
 const config = require('../../app/config.js');
 
 const host = `${config.get('test:int:host')}:${config.get('test:int:port')}/`;
@@ -19,18 +19,14 @@ describe('createShare', () => {
       const creator = 'teacherA1';
       const resourceType = 'PLAN';
       const resourceId = 'plan1';
-      //const query = host +
-      const query = 'http://localhost:8080/' +
-                    `v2/control/${district}/` +
-                    `user/${creator}` +
-                    `/assetType/${resourceType}/${resourceId}/sharerSettings`;
-      const fetchResult = await fetch(query, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"recipientRefIds": ["teacherA2", "teacherA3B1"]})
-      });
+
+      const query = `v2/control/${district}/` +
+        `user/${creator}` +
+        `/assetType/${resourceType}/${resourceId}/sharerSettings`;
+      
+      const body = {"recipientRefIds": ["teacherA2", "teacherA3B1"]};
+
+      const fetchResult = await request({query, body});
 
       expect(fetchResult.status).toBe(202);
     });
@@ -41,17 +37,13 @@ describe('createShare', () => {
       const resourceType = 'PLAN';
       const resourceId = 'plan2';
       //const query = host +
-      const query = 'http://localhost:8080/' +
-                    `v2/control/${district}/` +
-                    `user/${creator}` +
-                    `/assetType/${resourceType}/${resourceId}/sharerSettings`;
-      const fetchResult = await fetch(query, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"recipientRefIds": ["teacherA1", "teacherA2"]})
-      });
+      const query = `v2/control/${district}/` +
+        `user/${creator}` +
+        `/assetType/${resourceType}/${resourceId}/sharerSettings`;
+
+      const body = {"recipientRefIds": ["teacherA1", "teacherA2"]};
+
+      const fetchResult = await request({query, body});
 
       expect(fetchResult.status).toBe(202);
     });
@@ -62,17 +54,13 @@ describe('createShare', () => {
       const resourceType = 'PLAN';
       const resourceId = 'plan3';
       
-      const query = 'http://localhost:8080/' +
-                    `v2/control/${district}/` +
-                    `user/${creator}` +
-                    `/assetType/${resourceType}/${resourceId}/sharerSettings`;
-      const fetchResult = await fetch(query, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"recipientRefIds": ["teacherB2", "teacherB3"]})
-      });
+      const query = `v2/control/${district}/` +
+        `user/${creator}` +
+        `/assetType/${resourceType}/${resourceId}/sharerSettings`;
+      
+      const body = {"recipientRefIds": ["teacherB2", "teacherB3"]};
+      
+      const fetchResult = await request({query, body});
 
       expect(fetchResult.status).toBe(202);
     });
