@@ -3,5 +3,5 @@ const {requestLocalDB} = require('./testRequest.js');
 
 module.exports = {
   intSetup,
-  request: requestLocalDB
+  testRequest: requestLocalDB
 };

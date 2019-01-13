@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const { intSetup, request } = require('./utils');
+const { intSetup, testRequest } = require('./utils');
 const config = require('../../app/config.js');
 
 const host = `${config.get('test:int:host')}:${config.get('test:int:port')}/`;
@@ -26,7 +26,7 @@ describe('createShare', () => {
       
       const body = {"recipientRefIds": ["teacherA2", "teacherA3B1"]};
 
-      const fetchResult = await request({query, body});
+      const fetchResult = await testRequest({query, body});
 
       expect(fetchResult.status).toBe(202);
     });
@@ -43,7 +43,7 @@ describe('createShare', () => {
 
       const body = {"recipientRefIds": ["teacherA1", "teacherA2"]};
 
-      const fetchResult = await request({query, body});
+      const fetchResult = await testRequest({query, body});
 
       expect(fetchResult.status).toBe(202);
     });
@@ -60,7 +60,7 @@ describe('createShare', () => {
       
       const body = {"recipientRefIds": ["teacherB2", "teacherB3"]};
       
-      const fetchResult = await request({query, body});
+      const fetchResult = await testRequest({query, body});
 
       expect(fetchResult.status).toBe(202);
     });

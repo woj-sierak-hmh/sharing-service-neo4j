@@ -6,13 +6,13 @@ Object {
     Object {
       "assetRefId": "plan2",
       "assetType": "PLAN",
-      "shareDate": Any<Date>,
+      "shareDate": Any<String>,
       "shareRefId": "teacherA3B1",
     },
     Object {
       "assetRefId": "plan1",
       "assetType": "PLAN",
-      "shareDate": Any<Date>,
+      "shareDate": Any<String>,
       "shareRefId": "teacherA1",
     },
   ],

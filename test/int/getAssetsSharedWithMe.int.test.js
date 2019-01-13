@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 //const { setupIntTest, teardownIntTest } = require('./utils');
+const {intSetup, testRequest} = require('./utils');
 const config = require('../../app/config.js');
 
 const host = `${config.get('test:int:host')}:${config.get('test:int:port')}/`;
@@ -12,14 +13,11 @@ describe('getShares', () => {
       const recipient = 'teacherA2';
       const resourceType = 'PLAN';
 
-      const query = 'http://localhost:8080/' +
-                    `v2/access/tenant/${district}/` +
-                    `user/${recipient}` +
-                    `/asset/${resourceType}/assets`;
+      const query = `v2/access/tenant/${district}/` +
+        `user/${recipient}` +
+        `/asset/${resourceType}/assets`;
 
-      const fetchResult = await fetch(query, {
-        method: 'GET'
-      });
+      const fetchResult = await testRequest({query, method: 'GET'});
 
       const parsedResult = await fetchResult.json();
 
@@ -28,10 +26,22 @@ describe('getShares', () => {
       console.log('========================')
 
       expect(fetchResult.status).toBe(200);
-      //expect(parsedResult).toMatchSnapshot();
-      expect(parsedResult).toMatchSnapshot({
-        shareDate: expect.any(Date),
+
+      expect(parsedResult).toMatchSnapshot({ 
+        assets:[{
+          assetRefId: 'plan2',
+          assetType: 'PLAN',
+          shareRefId: 'teacherA3B1',
+          shareDate: expect.any(String) 
+        },
+        { 
+          assetRefId: 'plan1',
+          assetType: 'PLAN',
+          shareRefId: 'teacherA1',
+          shareDate: expect.any(String) 
+        }]
       });
+
     });
   });
 });
