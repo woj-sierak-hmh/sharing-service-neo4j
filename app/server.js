@@ -63,6 +63,7 @@ router.post('/v2/control/:tenantRefId/user/:sharerRefId/assetType/:assetType/:as
         recipients: recipientRefIds
       }
     )
+    console.log('--------------->', result.summary.statement.parameters);
     ctx.status = 202;
   } catch (err) {
     console.log('=================Error================');

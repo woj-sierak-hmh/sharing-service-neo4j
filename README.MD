@@ -41,4 +41,4 @@ In order of priority:
 - [ ] Refactor koa app, organize routes, env based configuration
 
 Notes:
-- [ ] Tests should be independent from each other - use beforeAll/Each to populate db with seed data
+- [x] Tests should be independent from each other - use beforeAll/Each to populate db with seed data

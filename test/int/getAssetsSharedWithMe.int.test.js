@@ -1,11 +1,17 @@
 const fetch = require('node-fetch');
-//const { setupIntTest, teardownIntTest } = require('./utils');
-const {intSetup, testRequest} = require('./utils');
+const { testRequest, createSeedData, removeAllData } = require('./utils');
 const config = require('../../app/config.js');
 
 const host = `${config.get('test:int:host')}:${config.get('test:int:port')}/`;
 
 describe('getShares', () => {
+  beforeEach(async () => {
+    await removeAllData();
+    await createSeedData();
+  });
+  afterEach(async () => {
+    await removeAllData();
+  });
   describe('As a teacher recipient, I...', () => {
     it('should be able to retrieve assets shared with me', async () => {
       // GET /v2/access/tenant/{tenantRefId}/user/{userRefId}/asset/{assetType}/assets

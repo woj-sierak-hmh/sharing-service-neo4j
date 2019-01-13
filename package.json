@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:int:create": "jest createShares.int.test.js -i --projects test/int",
     "test:int:get": "jest getAssetsSharedWithMe.int.test.js -i --projects test/int",
+    "db:prepdata": "node test/int/utils/prepData.js",
     "start": "node app/index.js",
     "dev": "nodemon app/index.js"
   },
