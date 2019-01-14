@@ -1,5 +1,5 @@
-const fetch = require('node-fetch');
-const config = require('../../../app/config.js');
+import fetch from 'node-fetch';
+import config from '../../../app/config.js';
 
 const setupRequest = (host, port) => async ({
   method,
@@ -22,7 +22,7 @@ const setupRequest = (host, port) => async ({
   return fetchResult;
 };
 
-module.exports.requestLocalDB = setupRequest(
+export const requestLocalDB = setupRequest(
   config.get('test:local:host'),
   config.get('test:local:port')
-)
+);

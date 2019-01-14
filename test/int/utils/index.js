@@ -1,10 +1,10 @@
-const intSetup = require('./intSetup.js');
-const {requestLocalDB} = require('./testRequest.js');
-const {createSeedData, removeAllData} = require('./prepData.js');
+import intSetup from './intSetup.js';
+import {requestLocalDB} from './testRequest.js';
+import {createSeedData, removeAllData} from './prepData.js';
 
-module.exports = {
+export {
   intSetup,
-  testRequest: requestLocalDB,
+  requestLocalDB as testRequest,
   createSeedData,
   removeAllData
 };

@@ -1,5 +1,5 @@
-const server = require('./server.js');
-const config = require('./config');
+import server from './server.js';
+import config from './config';
 
 const PORT = process.argv[2] || config.get('local:port');
 

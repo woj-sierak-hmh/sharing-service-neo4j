@@ -1,5 +1,5 @@
-const nconf = require('nconf');
-const path = require('path');
+import nconf from 'nconf';
+import path from 'path';
 
 const env = process.env.ENV || 'local';
 const commonConfig = path.join(process.cwd(), 'config/config.json');
@@ -8,4 +8,4 @@ nconf.file('commonFile', {file: commonConfig});
 
 nconf.set('env', env);
 
-module.exports = nconf;
+export default nconf;

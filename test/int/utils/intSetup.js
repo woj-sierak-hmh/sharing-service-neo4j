@@ -1,5 +1,5 @@
-const server = require('../../../app/server.js');
-const config = require('../../../app/config.js');
+import server from '../../../app/server.js';
+import config from '../../../app/config.js';
 
 let runningServer;
 
@@ -15,6 +15,6 @@ const teardownIntTest = async () => {
   });
 }
 
-module.exports = { setupIntTest, teardownIntTest };
+export { setupIntTest, teardownIntTest };
 
 // TODO: https://github.com/koajs/koa/issues/328

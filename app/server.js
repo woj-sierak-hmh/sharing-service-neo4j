@@ -1,7 +1,7 @@
-const koa = require('koa');
-const koaRouter = require('koa-router');
-const bodyParser = require('koa-bodyparser');
-const neo4j = require('neo4j-driver').v1;
+import koa from 'koa';
+import koaRouter from 'koa-router';
+import bodyParser from 'koa-bodyparser';
+import { v1 as neo4j } from 'neo4j-driver';
 
 const app = new koa();
 app.use(bodyParser());
@@ -133,4 +133,4 @@ MATCH (owner:Person {userId: "owner-user-id"})-[owns:Owns]->(resource:Resource)<
 RETURN ownwer, owns, resource, recipient
 */
 
-module.exports = app;
+export default app;

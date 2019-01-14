@@ -4,12 +4,14 @@
   "description": "",
   "main": "app/index.js",
   "scripts": {
+    "build": "babel app -d dist",
+    "dev": "npm run build && nodemon dist/index.js",
+    "start": "npm run build && node dist/index.js",
+    "serve": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:int:create": "jest createShares.int.test.js -i --projects test/int",
     "test:int:get": "jest getAssetsSharedWithMe.int.test.js -i --projects test/int",
-    "db:prepdata": "node test/int/utils/prepData.js",
-    "start": "node app/index.js",
-    "dev": "nodemon app/index.js"
+    "db:prepdata": "node test/int/utils/prepData.js"
   },
   "keywords": [],
   "author": "woj.sierak",
@@ -25,11 +27,17 @@
     "node-neo4j": "^2.0.3"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
     "jest": "^23.1.0",
     "nodemon": "^1.18.9"
   },
   "nodemonConfig": {
-    "ignore": ["test/*", "docs/*"]
+    "ignore": [
+      "test/*",
+      "docs/*"
+    ]
   },
   "jest": {
     "projects": [

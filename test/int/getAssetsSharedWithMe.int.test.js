@@ -1,6 +1,6 @@
-const fetch = require('node-fetch');
-const { testRequest, createSeedData, removeAllData } = require('./utils');
-const config = require('../../app/config.js');
+import fetch from 'node-fetch';
+import { testRequest, createSeedData, removeAllData } from './utils';
+import config from '../../app/config.js';
 
 const host = `${config.get('test:int:host')}:${config.get('test:int:port')}/`;
 
