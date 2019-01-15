@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import { testRequest, createSeedData, removeAllData } from './utils';
 import config from '../../app/config.js';
 
@@ -26,10 +25,6 @@ describe('getShares', () => {
       const fetchResult = await testRequest({query, method: 'GET'});
 
       const parsedResult = await fetchResult.json();
-
-      console.log('========================')
-      console.log(parsedResult);
-      console.log('========================')
 
       expect(fetchResult.status).toBe(200);
 

@@ -5,7 +5,7 @@
   "main": "app/index.js",
   "scripts": {
     "build": "babel app -d dist",
-    "dev": "npm run build && nodemon dist/index.js",
+    "dev": "nodemon --exec babel-node app/index.js",
     "start": "npm run build && node dist/index.js",
     "serve": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",

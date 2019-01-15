@@ -66,7 +66,7 @@ const removeAllData = () => {
 //removeAllData();
 //createSeedData();
 
-export default {
+export {
   createSeedData,
   removeAllData
 };

@@ -37,6 +37,7 @@ In order of priority:
 - [ ] Add district constraint to all queries
 - [ ] Add input data validation
 - [ ] Move from common.js to es modules with babel
+- [ ] Use logger in place of console.logs
 - [ ] Add linter and precommit hooks
 - [ ] Refactor koa app, organize routes, env based configuration
 - [ ] Add CI with Jenkins pipeline

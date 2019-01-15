@@ -92,10 +92,10 @@ router.get('/v2/access/tenant/:tenantRefId/user/:userRefId/asset/:assetType/asse
       'WITH share, asset ' +
       'MATCH (asset)<-[:CREATOR_OF]-(owner:User) ' +
       'RETURN asset.assetRefId AS assetRefId, asset.assetType AS assetType, ' +
-      'share.createdDate AS shareDate, owner.userRefId AS sharerRefId',
+      'share.createdDate AS shareDate, owner.userRefId AS sharerRefId ' +
+      'ORDER BY shareDate DESC',
       ctx.params
     );
-    
     const assets = results.records.map(r => {
       return {
         assetRefId: r.get('assetRefId'),
