@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "standard",
+    "prettier"
+  ],
+  "plugins": [
+    "prettier",
+    "standard"
+  ],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "env": {
+    "es6": true,
+    "jest": true,
+    "node": true
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "no-return-await": "warn"
+  }
+}

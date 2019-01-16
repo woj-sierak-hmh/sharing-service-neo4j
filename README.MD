@@ -36,11 +36,12 @@ In order of priority:
 - [ ] Build db query and prototype endpoint for deleting assets I own + tests
 - [ ] Add district constraint to all queries
 - [ ] Add input data validation
-- [ ] Move from common.js to es modules with babel
+- [x] Move from common.js to es modules with babel
 - [ ] Use logger in place of console.logs
 - [ ] Add linter and precommit hooks
 - [ ] Refactor koa app, organize routes, env based configuration
 - [ ] Add CI with Jenkins pipeline
+- [ ] Add unit / functional / integration tests
 
 Notes:
 - [x] Tests should be independent from each other - use beforeAll/Each to populate db with seed data
