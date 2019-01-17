@@ -1,7 +1,7 @@
 import { testRequest, createSeedData, removeAllData } from './utils';
-import config from '../../app/config.js';
+// import config from '../../app/config.js';
 
-const host = `${config.get('test:int:host')}:${config.get('test:int:port')}/`;
+// const host = `${config.get('test:int:host')}:${config.get('test:int:port')}/`;
 
 describe('getShares', () => {
   beforeEach(async () => {
@@ -18,31 +18,33 @@ describe('getShares', () => {
       const recipient = 'teacherA2';
       const resourceType = 'PLAN';
 
-      const query = `v2/access/tenant/${district}/` +
+      const query =
+        `v2/access/tenant/${district}/` +
         `user/${recipient}` +
         `/asset/${resourceType}/assets`;
 
-      const fetchResult = await testRequest({query, method: 'GET'});
+      const fetchResult = await testRequest({ query, method: 'GET' });
 
       const parsedResult = await fetchResult.json();
 
       expect(fetchResult.status).toBe(200);
 
-      expect(parsedResult).toMatchSnapshot({ 
-        assets:[{
-          assetRefId: 'plan2',
-          assetType: 'PLAN',
-          shareRefId: 'teacherA3B1',
-          shareDate: expect.any(String) 
-        },
-        { 
-          assetRefId: 'plan1',
-          assetType: 'PLAN',
-          shareRefId: 'teacherA1',
-          shareDate: expect.any(String) 
-        }]
+      expect(parsedResult).toMatchSnapshot({
+        assets: [
+          {
+            assetRefId: 'plan2',
+            assetType: 'PLAN',
+            shareRefId: 'teacherA3B1',
+            shareDate: expect.any(String),
+          },
+          {
+            assetRefId: 'plan1',
+            assetType: 'PLAN',
+            shareRefId: 'teacherA1',
+            shareDate: expect.any(String),
+          },
+        ],
       });
-
     });
   });
 });

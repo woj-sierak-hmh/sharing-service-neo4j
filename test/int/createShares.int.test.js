@@ -1,16 +1,16 @@
 import { testRequest, removeAllData } from './utils';
-import config from '../../app/config.js';
+// import config from '../../app/config.js';
 
-const host = `${config.get('test:int:host')}:${config.get('test:int:port')}/`;
+// const host = `${config.get('test:int:host')}:${config.get('test:int:port')}/`;
 
 // todo - do we need async here?
 describe('createShare', () => {
   beforeAll(async () => {
-    //await setupIntTest();
+    // await setupIntTest();
     await removeAllData();
   });
   afterAll(async () => {
-    //await teardownIntTest();
+    // await teardownIntTest();
     await removeAllData();
   });
 
@@ -21,13 +21,14 @@ describe('createShare', () => {
       const resourceType = 'PLAN';
       const resourceId = 'plan1';
 
-      const query = `v2/control/${district}/` +
+      const query =
+        `v2/control/${district}/` +
         `user/${creator}` +
         `/assetType/${resourceType}/${resourceId}/sharerSettings`;
-      
-      const body = {"recipientRefIds": ["teacherA2", "teacherA3B1"]};
 
-      const fetchResult = await testRequest({query, body});
+      const body = { recipientRefIds: ['teacherA2', 'teacherA3B1'] };
+
+      const fetchResult = await testRequest({ query, body });
 
       expect(fetchResult.status).toBe(202);
     });
@@ -38,13 +39,14 @@ describe('createShare', () => {
       const resourceType = 'PLAN';
       const resourceId = 'plan2';
 
-      const query = `v2/control/${district}/` +
+      const query =
+        `v2/control/${district}/` +
         `user/${creator}` +
         `/assetType/${resourceType}/${resourceId}/sharerSettings`;
 
-      const body = {"recipientRefIds": ["teacherA1", "teacherA2"]};
+      const body = { recipientRefIds: ['teacherA1', 'teacherA2'] };
 
-      const fetchResult = await testRequest({query, body});
+      const fetchResult = await testRequest({ query, body });
 
       expect(fetchResult.status).toBe(202);
     });
@@ -54,13 +56,14 @@ describe('createShare', () => {
       const creator = 'teacherA3B1';
       const resourceType = 'PLAN';
       const resourceId = 'plan3';
-      
-      const query = `v2/control/${district}/` +
+
+      const query =
+        `v2/control/${district}/` +
         `user/${creator}` +
         `/assetType/${resourceType}/${resourceId}/sharerSettings`;
-      
-      const body = {"recipientRefIds": ["teacherB2", "teacherB3"]};
-      const fetchResult = await testRequest({query, body});
+
+      const body = { recipientRefIds: ['teacherB2', 'teacherB3'] };
+      const fetchResult = await testRequest({ query, body });
       expect(fetchResult.status).toBe(202);
     });
   });

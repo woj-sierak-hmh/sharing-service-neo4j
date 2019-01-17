@@ -7,13 +7,13 @@ const setupIntTest = async () => {
   return new Promise(resolve => {
     runningServer = server.listen(config.get('test:int:port'), resolve);
   });
-}
+};
 
 const teardownIntTest = async () => {
   return new Promise(resolve => {
     runningServer.close(resolve);
   });
-}
+};
 
 export { setupIntTest, teardownIntTest };
 

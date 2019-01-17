@@ -1,5 +1,6 @@
 {
-  "app": {  
+  "app": {
+    "foo": "bar"
   },
   "local": {
     "port": 8080

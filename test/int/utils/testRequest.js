@@ -5,7 +5,7 @@ const setupRequest = (host, port) => async ({
   method,
   query,
   additionalHeaders,
-  body
+  body,
 }) => {
   const reqMethod = method || 'POST';
   const path = `${host}:${port}/${query}`;
@@ -14,9 +14,9 @@ const setupRequest = (host, port) => async ({
     method: reqMethod,
     headers: {
       'Content-Type': 'application/json',
-      ...additionalHeaders
+      ...additionalHeaders,
     },
-    body
+    body,
   });
 
   return fetchResult;

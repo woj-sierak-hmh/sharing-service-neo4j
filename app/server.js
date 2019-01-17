@@ -1,12 +1,12 @@
-import koa from 'koa';
-import koaRouter from 'koa-router';
+import Koa from 'koa';
+import KoaRouter from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 import { v1 as neo4j } from 'neo4j-driver';
 
-const app = new koa();
+const app = new Koa();
 app.use(bodyParser());
 
-const router = new koaRouter();
+const router = new KoaRouter();
 
 const uri = 'bolt://localhost';
 const driver = neo4j.driver(uri, neo4j.auth.basic('neo4j', 'karmen'));
@@ -38,45 +38,48 @@ const session = driver.session();
 
   $ curl -vX POST http://localhost:8080/v2/control/district1/user/teacher1/assetType/PLAN/plan456/sharerSettings
 */
-router.post('/v2/control/:tenantRefId/user/:sharerRefId/assetType/:assetType/:assetRefId/sharerSettings', async (ctx, next) => {
-  // TODO validation of params
+router.post(
+  '/v2/control/:tenantRefId/user/:sharerRefId/assetType/:assetType/:assetRefId/sharerSettings',
+  async (ctx, next) => {
+    // TODO validation of params
 
-  console.log('ctx.request.body:', ctx.request.body);
-  const recipientRefIds = ctx.request.body.recipientRefIds;
-  console.log('recipientRefIds:', recipientRefIds);
+    console.log('ctx.request.body:', ctx.request.body);
+    const recipientRefIds = ctx.request.body.recipientRefIds;
+    console.log('recipientRefIds:', recipientRefIds);
 
-  try {
-    const result = await session.run(
-      'MERGE (org:Organization {orgRefId: {tenantRefId}}) ' +
-      'MERGE (asset:Asset {assetRefId: {assetRefId}, assetType: {assetType}, isActive: "true"}) ' +
-      'MERGE (org)-[:MASTER_OF]->(asset) ' +
-      'MERGE (creator:User {userRefId: {sharerRefId}}) ' +
-      'MERGE (creator)-[:CREATOR_OF]->(asset) ' +
-      'FOREACH (ref IN {recipients} | ' + 
-      '  MERGE (recipient:User {userRefId: ref}) ' +
-      '  MERGE (asset)-[:SHARED_WITH {type:"READ", createdDate: $createdDate}]->(recipient))',
-      {
-        ...ctx.params, 
-        createdDate: new Date().toISOString(),
-        // temporarily...
-        //recipient: `teacher` + Math.ceil(Math.random() * 100)
-        recipients: recipientRefIds
-      }
-    )
-    console.log('--------------->', result.summary.statement.parameters);
-    ctx.status = 202;
-  } catch (err) {
-    console.log('=================Error================');
-    console.log(err);
-    console.log('======================================');
-    ctx.status = 500;
-    ctx.body = 'Apparently something went wrong...' + err.code;
+    try {
+      const result = await session.run(
+        'MERGE (org:Organization {orgRefId: {tenantRefId}}) ' +
+          'MERGE (asset:Asset {assetRefId: {assetRefId}, assetType: {assetType}, isActive: "true"}) ' +
+          'MERGE (org)-[:MASTER_OF]->(asset) ' +
+          'MERGE (creator:User {userRefId: {sharerRefId}}) ' +
+          'MERGE (creator)-[:CREATOR_OF]->(asset) ' +
+          'FOREACH (ref IN {recipients} | ' +
+          '  MERGE (recipient:User {userRefId: ref}) ' +
+          '  MERGE (asset)-[:SHARED_WITH {type:"READ", createdDate: $createdDate}]->(recipient))',
+        {
+          ...ctx.params,
+          createdDate: new Date().toISOString(),
+          // temporarily...
+          // recipient: `teacher` + Math.ceil(Math.random() * 100)
+          recipients: recipientRefIds,
+        }
+      );
+      console.log('--------------->', result.summary.statement.parameters);
+      ctx.status = 202;
+    } catch (err) {
+      console.log('=================Error================');
+      console.log(err);
+      console.log('======================================');
+      ctx.status = 500;
+      ctx.body = 'Apparently something went wrong...' + err.code;
+    }
+    session.close();
+
+    // on application exit:
+    // driver.close();
   }
-  session.close();
-  
-  // on application exit:
-  // driver.close();
-});
+);
 
 /*
 MATCH (:User {userRefId:"teacherB3"})<-[share:SHARED_WITH]-(asset:Asset {assetType:"PLAN"})<-[:MASTER_OF]-(:Organization {orgRefId:"districtB"})
@@ -84,37 +87,40 @@ WITH share, asset
 MATCH (asset)<-[:CREATOR_OF]-(owner:User)
 RETURN asset.assetRefId, share.createdDate, owner.userRefId
 */
-router.get('/v2/access/tenant/:tenantRefId/user/:userRefId/asset/:assetType/assets', async ctx => {
-  console.log('params-->', ctx.params);
-  try {
-    const results = await session.run(
-      'MATCH (:User {userRefId: {userRefId}})<-[share:SHARED_WITH]-(asset:Asset {assetType: {assetType}})<-[:MASTER_OF]-(:Organization {orgRefId: {tenantRefId}}) ' +
-      'WITH share, asset ' +
-      'MATCH (asset)<-[:CREATOR_OF]-(owner:User) ' +
-      'RETURN asset.assetRefId AS assetRefId, asset.assetType AS assetType, ' +
-      'share.createdDate AS shareDate, owner.userRefId AS sharerRefId ' +
-      'ORDER BY shareDate DESC',
-      ctx.params
-    );
-    const assets = results.records.map(r => {
-      return {
-        assetRefId: r.get('assetRefId'),
-        assetType: r.get('assetType'),
-        shareRefId: r.get('sharerRefId'),
-        shareDate: r.get('shareDate')
-      };
-    });
-    ctx.status = 200;
-    ctx.body = {assets};
-  } catch (err) {
-    console.log('=================Error================');
-    console.log(err);
-    console.log('======================================');
-    ctx.status = 500;
-    ctx.body = 'Apparently something went wrong...' + err.code;
+router.get(
+  '/v2/access/tenant/:tenantRefId/user/:userRefId/asset/:assetType/assets',
+  async ctx => {
+    console.log('params-->', ctx.params);
+    try {
+      const results = await session.run(
+        'MATCH (:User {userRefId: {userRefId}})<-[share:SHARED_WITH]-(asset:Asset {assetType: {assetType}})<-[:MASTER_OF]-(:Organization {orgRefId: {tenantRefId}}) ' +
+          'WITH share, asset ' +
+          'MATCH (asset)<-[:CREATOR_OF]-(owner:User) ' +
+          'RETURN asset.assetRefId AS assetRefId, asset.assetType AS assetType, ' +
+          'share.createdDate AS shareDate, owner.userRefId AS sharerRefId ' +
+          'ORDER BY shareDate DESC',
+        ctx.params
+      );
+      const assets = results.records.map(r => {
+        return {
+          assetRefId: r.get('assetRefId'),
+          assetType: r.get('assetType'),
+          shareRefId: r.get('sharerRefId'),
+          shareDate: r.get('shareDate'),
+        };
+      });
+      ctx.status = 200;
+      ctx.body = { assets };
+    } catch (err) {
+      console.log('=================Error================');
+      console.log(err);
+      console.log('======================================');
+      ctx.status = 500;
+      ctx.body = 'Apparently something went wrong...' + err.code;
+    }
+    session.close();
   }
-  session.close();
-});
+);
 
 app.use(router.routes());
 // responds to OPTIONS requests
