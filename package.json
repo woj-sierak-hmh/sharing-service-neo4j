@@ -4,7 +4,6 @@
   "description": "",
   "main": "app/index.js",
   "scripts": {
-    "precommit": "echo just about to commit...",
     "build": "babel app -d dist",
     "dev": "nodemon --exec babel-node app/index.js",
     "lint": "eslint --ext .js --ext .json app/* config/* test/*",
@@ -14,6 +13,11 @@
     "test:int:create": "jest createShares.int.test.js -i --projects test/int",
     "test:int:get": "jest getAssetsSharedWithMe.int.test.js -i --projects test/int",
     "db:prepdata": "node test/int/utils/prepData.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
   },
   "keywords": [],
   "author": "woj.sierak",
@@ -41,6 +45,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
+    "husky": "^1.3.1",
     "jest": "^23.1.0",
     "nodemon": "^1.18.9",
     "prettier": "^1.15.3"
