@@ -2,9 +2,25 @@ import Koa from 'koa';
 import KoaRouter from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 import { v1 as neo4j } from 'neo4j-driver';
+import koaBunyanLogger from 'koa-bunyan-logger';
+
+import log from './utils/logger.js';
 
 const app = new Koa();
 app.use(bodyParser());
+app.use(koaBunyanLogger(log));
+app.use(koaBunyanLogger.requestIdContext());
+app.use(
+  koaBunyanLogger.requestLogger({
+    updateLogFields: fields => {
+      fields.req = undefined;
+      fields.res = undefined;
+      fields.user_id = 'unspecified_user';
+      // fields.client_version =
+      //   this.request.get('X-Client-Version') || 'unspecified_client_version';
+    },
+  })
+);
 
 const router = new KoaRouter();
 
@@ -43,9 +59,9 @@ router.post(
   async (ctx, next) => {
     // TODO validation of params
 
-    console.log('ctx.request.body:', ctx.request.body);
+    ctx.log.info('ctx.request.body:', ctx.request.body);
     const recipientRefIds = ctx.request.body.recipientRefIds;
-    console.log('recipientRefIds:', recipientRefIds);
+    ctx.log.info('recipientRefIds:', recipientRefIds);
 
     try {
       const result = await session.run(
@@ -65,12 +81,10 @@ router.post(
           recipients: recipientRefIds,
         }
       );
-      console.log('--------------->', result.summary.statement.parameters);
+      ctx.log.info('--------------->', result.summary.statement.parameters);
       ctx.status = 202;
     } catch (err) {
-      console.log('=================Error================');
-      console.log(err);
-      console.log('======================================');
+      ctx.log.error(err);
       ctx.status = 500;
       ctx.body = 'Apparently something went wrong...' + err.code;
     }
@@ -90,7 +104,7 @@ RETURN asset.assetRefId, share.createdDate, owner.userRefId
 router.get(
   '/v2/access/tenant/:tenantRefId/user/:userRefId/asset/:assetType/assets',
   async ctx => {
-    console.log('params-->', ctx.params);
+    ctx.log.info('params-->', ctx.params);
     try {
       const results = await session.run(
         'MATCH (:User {userRefId: {userRefId}})<-[share:SHARED_WITH]-(asset:Asset {assetType: {assetType}})<-[:MASTER_OF]-(:Organization {orgRefId: {tenantRefId}}) ' +
@@ -112,9 +126,7 @@ router.get(
       ctx.status = 200;
       ctx.body = { assets };
     } catch (err) {
-      console.log('=================Error================');
-      console.log(err);
-      console.log('======================================');
+      ctx.log.error(err);
       ctx.status = 500;
       ctx.body = 'Apparently something went wrong...' + err.code;
     }

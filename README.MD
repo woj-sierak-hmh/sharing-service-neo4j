@@ -38,8 +38,9 @@ In order of priority:
 - [ ] Add input data validation
 - [x] Move from common.js to es modules with babel
 - [ ] Use logger in place of console.logs
-- [ ] Add linter and prettier and use precommit hooks
-- [ ] Refactor koa app, organize routes, env based configuration
+- [ ] Read settings from env variables
+- [x] Add linter and prettier and use precommit hooks
+- [ ] Refactor koa app, organize routes
 - [ ] Add CI with Jenkins pipeline
 - [ ] Add unit / functional / integration tests
 

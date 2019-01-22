@@ -5,7 +5,7 @@
   "main": "app/index.js",
   "scripts": {
     "build": "babel app -d dist",
-    "dev": "nodemon --exec babel-node app/index.js",
+    "dev": "nodemon --exec babel-node app/index.js | bunyan",
     "lint": "eslint --ext .js --ext .json app/* config/* test/*",
     "start": "npm run build && node dist/index.js",
     "serve": "node dist/index.js",
@@ -23,9 +23,11 @@
   "author": "woj.sierak",
   "license": "ISC",
   "dependencies": {
+    "bunyan": "^1.8.12",
     "express": "^4.16.4",
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
+    "koa-bunyan-logger": "^2.1.0",
     "koa-router": "^7.4.0",
     "nconf": "^0.10.0",
     "neo4j-driver": "^1.7.2",

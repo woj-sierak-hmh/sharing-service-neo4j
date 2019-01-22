@@ -1,8 +1,9 @@
 import server from './server.js';
-import config from './config';
+import config from './config.js';
+import log from './utils/logger.js';
 
 const PORT = process.argv[2] || config.get('local:port');
 
 server.listen(PORT, () => {
-  console.log(`Service listens on port ${PORT}`);
+  log.info(`Service listens on port ${PORT}`);
 });
