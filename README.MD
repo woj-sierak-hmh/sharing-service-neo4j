@@ -37,7 +37,7 @@ In order of priority:
 - [ ] Add district constraint to all queries
 - [ ] Add input data validation
 - [x] Move from common.js to es modules with babel
-- [ ] Use logger in place of console.logs
+- [x] Use logger in place of console.logs
 - [ ] Read settings from env variables
 - [x] Add linter and prettier and use precommit hooks
 - [ ] Refactor koa app, organize routes

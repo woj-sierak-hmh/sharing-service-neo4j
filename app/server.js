@@ -3,6 +3,7 @@ import KoaRouter from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 import { v1 as neo4j } from 'neo4j-driver';
 import koaBunyanLogger from 'koa-bunyan-logger';
+import config from './config.js';
 
 import log from './utils/logger.js';
 
@@ -24,8 +25,13 @@ app.use(
 
 const router = new KoaRouter();
 
-const uri = 'bolt://localhost';
-const driver = neo4j.driver(uri, neo4j.auth.basic('neo4j', 'karmen'));
+const driver = neo4j.driver(
+  config.get('DB_URI'),
+  neo4j.auth.basic(
+    config.get('DB_AUTHB_USERNAME'),
+    config.get('DB_AUTHB_PASSWORD')
+  )
+);
 const session = driver.session();
 
 /* 
