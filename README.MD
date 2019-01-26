@@ -46,3 +46,6 @@ In order of priority:
 
 Notes:
 - [x] Tests should be independent from each other - use beforeAll/Each to populate db with seed data
+
+### Ref Links:
+- [env vars handling] (https://medium.com/the-node-js-collection/making-your-node-js-work-everywhere-with-environment-variables-2da8cdf6e786)

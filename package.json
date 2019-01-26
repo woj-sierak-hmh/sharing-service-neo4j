@@ -4,8 +4,12 @@
   "description": "",
   "main": "app/index.js",
   "scripts": {
-    "build": "babel app -d dist",
-    "dev": "nodemon --exec babel-node app/index.js | bunyan",
+    "build": "babel app -d dist --source-maps",
+    "dev": "nodemon --exec 'babel-node app/index.js' | bunyan",
+    "dev:debug": "nodemon --exec babel-node app/index.js --inspect=1234",
+    "debug": "babel-node --inspect --debug-brk app/index.js",
+    "dev2": "babel-node app/index.js --require 'node_modules/dotenv/config'",
+    "dev3": "npm run build && node -r dotenv/config dist/index.js",
     "lint": "eslint --ext .js --ext .json app/* config/* test/*",
     "start": "npm run build && node dist/index.js",
     "serve": "node dist/index.js",
@@ -36,6 +40,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-plugin-inline-dotenv": "^1.2.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-2": "^6.24.1",
     "dotenv": "^6.2.0",
