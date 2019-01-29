@@ -38,7 +38,7 @@ In order of priority:
 - [ ] Add input data validation
 - [x] Move from common.js to es modules with babel
 - [x] Use logger in place of console.logs
-- [ ] Read settings from env variables
+- [x] Read settings from env vars (dotenv only for dev env loaded with babel)
 - [x] Add linter and prettier and use precommit hooks
 - [ ] Refactor koa app, organize routes
 - [ ] Add CI with Jenkins pipeline
@@ -49,3 +49,4 @@ Notes:
 
 ### Ref Links:
 - [env vars handling] (https://medium.com/the-node-js-collection/making-your-node-js-work-everywhere-with-environment-variables-2da8cdf6e786)
+- https://github.com/motdotla/dotenv/issues/133
