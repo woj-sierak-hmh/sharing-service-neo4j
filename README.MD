@@ -40,7 +40,7 @@ In order of priority:
 - [x] Use logger in place of console.logs
 - [x] Read settings from env vars (dotenv only for dev env loaded with babel)
 - [x] Add linter and prettier and use precommit hooks
-- [ ] Refactor koa app, organize routes
+- [ ] Refactor koa app, organize routes, create db abstraction
 - [ ] Add CI with Jenkins pipeline
 - [ ] Add unit / functional / integration tests
 

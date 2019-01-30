@@ -1,10 +1,9 @@
 import Koa from 'koa';
 import KoaRouter from 'koa-router';
 import bodyParser from 'koa-bodyparser';
-import { v1 as neo4j } from 'neo4j-driver';
 import koaBunyanLogger from 'koa-bunyan-logger';
-import config from './config.js';
 
+import * as shares from './db/queries/shares.js';
 import log from './utils/logger.js';
 
 const app = new Koa();
@@ -24,15 +23,6 @@ app.use(
 );
 
 const router = new KoaRouter();
-
-const driver = neo4j.driver(
-  config.get('DB_URI'),
-  neo4j.auth.basic(
-    config.get('DB_AUTHB_USERNAME'),
-    config.get('DB_AUTHB_PASSWORD')
-  )
-);
-const session = driver.session();
 
 /* 
   Create endpoint for creating a share
@@ -66,27 +56,14 @@ router.post(
     // TODO validation of params
 
     ctx.log.info('ctx.request.body:', ctx.request.body);
-    const recipientRefIds = ctx.request.body.recipientRefIds;
-    ctx.log.info('recipientRefIds:', recipientRefIds);
+    const recipients = ctx.request.body.recipientRefIds;
+    ctx.log.info('recipientRefIds:', recipients);
 
     try {
-      const result = await session.run(
-        'MERGE (org:Organization {orgRefId: {tenantRefId}}) ' +
-          'MERGE (asset:Asset {assetRefId: {assetRefId}, assetType: {assetType}, isActive: "true"}) ' +
-          'MERGE (org)-[:MASTER_OF]->(asset) ' +
-          'MERGE (creator:User {userRefId: {sharerRefId}}) ' +
-          'MERGE (creator)-[:CREATOR_OF]->(asset) ' +
-          'FOREACH (ref IN {recipients} | ' +
-          '  MERGE (recipient:User {userRefId: ref}) ' +
-          '  MERGE (asset)-[:SHARED_WITH {type:"READ", createdDate: $createdDate}]->(recipient))',
-        {
-          ...ctx.params,
-          createdDate: new Date().toISOString(),
-          // temporarily...
-          // recipient: `teacher` + Math.ceil(Math.random() * 100)
-          recipients: recipientRefIds,
-        }
-      );
+      const result = await shares.createShare({
+        ...ctx.params,
+        recipients: recipients || ['grzuby'],
+      });
       ctx.log.info('--------------->', result.summary.statement.parameters);
       ctx.status = 202;
     } catch (err) {
@@ -94,7 +71,6 @@ router.post(
       ctx.status = 500;
       ctx.body = 'Apparently something went wrong...' + err.code;
     }
-    session.close();
 
     // on application exit:
     // driver.close();
@@ -112,23 +88,7 @@ router.get(
   async ctx => {
     ctx.log.info('params-->', ctx.params);
     try {
-      const results = await session.run(
-        'MATCH (:User {userRefId: {userRefId}})<-[share:SHARED_WITH]-(asset:Asset {assetType: {assetType}})<-[:MASTER_OF]-(:Organization {orgRefId: {tenantRefId}}) ' +
-          'WITH share, asset ' +
-          'MATCH (asset)<-[:CREATOR_OF]-(owner:User) ' +
-          'RETURN asset.assetRefId AS assetRefId, asset.assetType AS assetType, ' +
-          'share.createdDate AS shareDate, owner.userRefId AS sharerRefId ' +
-          'ORDER BY shareDate DESC',
-        ctx.params
-      );
-      const assets = results.records.map(r => {
-        return {
-          assetRefId: r.get('assetRefId'),
-          assetType: r.get('assetType'),
-          shareRefId: r.get('sharerRefId'),
-          shareDate: r.get('shareDate'),
-        };
-      });
+      const assets = await shares.getShares(ctx.params);
       ctx.status = 200;
       ctx.body = { assets };
     } catch (err) {
@@ -136,7 +96,6 @@ router.get(
       ctx.status = 500;
       ctx.body = 'Apparently something went wrong...' + err.code;
     }
-    session.close();
   }
 );
 
