@@ -53,5 +53,6 @@ export const getShares = async ({ tenantRefId, userRefId, assetType }) => {
       shareDate: r.get('shareDate'),
     };
   });
+  session.close();
   return assets;
 };
