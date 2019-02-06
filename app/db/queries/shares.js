@@ -1,4 +1,5 @@
-import session from '../connection.js';
+import { getSession } from '../connection.js';
+const session = getSession();
 
 export const createShare = async ({
   tenantRefId,
