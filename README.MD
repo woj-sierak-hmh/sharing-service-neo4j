@@ -1,4 +1,4 @@
-### How to run locally
+## How to run locally
 
 Run only Neo4j:
 `sudo docker-compose up neo4j`
@@ -13,7 +13,7 @@ Neo4j browser:
 `http://localhost:7474/browser/`
 
 
-### Handy Cypher queries
+## Handy Cypher queries
 
 Show everything:
 `MATCH (n) RETURN n`
@@ -24,9 +24,7 @@ Remove everything:
 Add constraint:
 `CREATE constraint ON (a:Asset) ASSERT a.assetRefId IS UNIQUE`
 
-### TODO List:
-
-#### MVP:
+## TODO List (MVP):
 
 In order of priority:
 - [x] Setup docker compose with Neo4j image in one container and node app in another
@@ -47,13 +45,21 @@ In order of priority:
 Notes:
 - [x] Tests should be independent from each other - use beforeAll/Each to populate db with seed data
 
-### Ref Links:
-- [env vars handling] (https://medium.com/the-node-js-collection/making-your-node-js-work-everywhere-with-environment-variables-2da8cdf6e786)
-- https://github.com/motdotla/dotenv/issues/133
+## Ref Links:
+- [env vars handling](https://medium.com/the-node-js-collection/making-your-node-js-work-everywhere-with-environment-variables-2da8cdf6e786)
+- [loading .env via babel plugin] https://github.com/motdotla/dotenv/issues/133
+- [Jest mocks explained](https://medium.com/@rickhanlonii/understanding-jest-mocks-f0046c68e53c)
 
-### Handy tips
+## Handy tips
+
+### Jest 
 
 #### Run jest for just one test file
+
 ```bash
 $ npm run test:unit -- -- app/db/__tests__/connection.unit.test.js
 ```
+
+#### Get console.log output in jest report
+
+Add `--verbose` flag when running jest
