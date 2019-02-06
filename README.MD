@@ -50,3 +50,10 @@ Notes:
 ### Ref Links:
 - [env vars handling] (https://medium.com/the-node-js-collection/making-your-node-js-work-everywhere-with-environment-variables-2da8cdf6e786)
 - https://github.com/motdotla/dotenv/issues/133
+
+### Handy tips
+
+#### Run jest for just one test file
+```bash
+$ npm run test:unit -- -- app/db/__tests__/connection.unit.test.js
+```

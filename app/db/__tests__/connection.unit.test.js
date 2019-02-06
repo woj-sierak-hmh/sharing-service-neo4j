@@ -1,20 +1,18 @@
 import { v1 as neo4j } from 'neo4j-driver';
 import config from '../../config.js';
+import { getSession } from '../connection.js';
 
 const session = jest.fn();
 
 neo4j.driver = jest.fn((dbURI, authBasic) => {
-  // expect(dbURI).toBe(config.get('DB_URI'));
-  // expect(authBasic).toEqual(neo4j.auth.basic);
   return {
     session,
   };
 });
 
-const basic = jest.fn((username, password) => {
-  expect(username).toBe(config.get('DB_AUTHB_USERNAME'));
-  expect(password).toBe(config.get('DB_AUTHB_PASSWORD'));
-});
+const basicReturn = { foo: 'bar' };
+
+const basic = jest.fn().mockReturnValue(basicReturn);
 
 neo4j.auth = {
   basic,
@@ -28,10 +26,13 @@ describe('connection', () => {
   });
 
   test('initializes neo4j driver', () => {
-    require('../connection.js');
+    // require('../connection.js');
+    getSession();
+    expect(basic).toBeCalledWith(
+      config.get('DB_AUTHB_USERNAME'),
+      config.get('DB_AUTHB_PASSWORD')
+    );
+    expect(neo4j.driver).toBeCalledWith(config.get('DB_URI'), basicReturn);
     expect(session).toBeCalled();
-    expect(basic).toBeCalled();
-    expect(neo4j.driver).toBeCalled();
-    // expect(neo4j.driver).toBeCalledWith(config.get('DB_URI'), neo4j.auth.basic);
   });
 });
