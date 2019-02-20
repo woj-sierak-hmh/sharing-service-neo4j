@@ -13,6 +13,7 @@ pipeline {
     stage('Test') {
       steps {
         echo 'Running tests'
+        // ref: https://jincod.github.io/2017/09/04/jenkins-integration-with-jest/
         withEnv(["JEST_JUNIT_OUTPUT=./jest-test-results.xml"]) {
           sh 'npm run test:unit'
         }

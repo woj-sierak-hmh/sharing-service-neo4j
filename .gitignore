@@ -84,3 +84,6 @@ typings/
 
 # vscode
 .vscode
+
+# junit reports
+junit.xml
