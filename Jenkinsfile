@@ -4,6 +4,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
+        sh 'npm i'
         sh 'npm run build'
       }
     }
