@@ -2,6 +2,11 @@ pipeline {
   agent any
 
   stages {
+    stage ('Experimenting') {
+      steps {
+        echo "Build number: ${env.BUILD_ID}, Job name: ${env.JOB_NAME}"
+      }
+    }
     stage('Build') {
       steps {
         echo 'Installing dependencies...'
