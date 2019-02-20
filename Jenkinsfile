@@ -4,19 +4,22 @@ pipeline {
   stages {
     stage('Build') {
       steps {
+        echo 'Installing dependencies...'
         sh 'npm i'
+        echo 'Building...'
         sh 'npm run build'
       }
     }
     stage('Test') {
       steps {
-        echo 'Here we will test'
-        sleep time: 10, unit: 'MINUTES'
+        echo 'Running tests'
+        sh 'npm run test:unit'
       }
     }
     stage('Deploy') {
       steps {
-        echo 'Here we will deploy'
+        echo 'Deploying, but where...?'
+        sleep time: 10, unit: 'MINUTES'
       }
     }
   }
