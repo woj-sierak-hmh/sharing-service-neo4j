@@ -13,7 +13,10 @@ pipeline {
     stage('Test') {
       steps {
         echo 'Running tests'
-        sh 'npm run test:unit'
+        withEnv(["JEST_JUNIT_OUTPUT=./jest-test-results.xml"]) {
+          sh 'npm run test:unit'
+        }
+        junit 'jest-test-results.xml'
       }
     }
     stage('Deploy') {
