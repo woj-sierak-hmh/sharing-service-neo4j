@@ -25,6 +25,14 @@ pipeline {
         junit 'jest-test-results.xml'
       }
     }
+    stage ('Do something else') {
+      steps {
+        echo "The below will succeed"
+        sh 'node scripts/nodeexit0.js'
+        echo "The below will fail"
+        sh 'node scripts nodeexit1.js'
+      }
+    }
     stage('Deploy') {
       when {
         expression {
