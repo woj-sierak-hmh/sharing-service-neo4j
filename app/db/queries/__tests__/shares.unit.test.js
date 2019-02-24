@@ -1,17 +1,26 @@
 import { getSession } from '../../connection.js';
 import { createShare } from '../shares.js';
-jest.mock('../../connection.js', () => {
-  return {
-    getSession: jest.fn(),
-  };
-});
+
+const runRet = { foo: 'bar' };
+const mockRun = jest.fn(() => runRet);
+const mockClose = jest.fn();
+
+jest.mock('../../connection.js');
+//, () => {
+  // return {
+  //   getSession: jest.fn(),
+  // };
+//});
 
 describe('shares', () => {
   beforeAll(() => {
     getSession.mockImplementation(() => {
-      
-    })
-    console.log(getSession);
+      return {
+        run: mockRun,
+        close: mockClose,
+      };
+    });
+    //console.log(getSession);
   });
   afterEach(() => {
     // getSession.mockClear();
@@ -25,8 +34,14 @@ describe('shares', () => {
       recipients: 'recipients',
     };
 
-    // const res = await createShare(inputObj);
-    // console.log(getSession.mock.calls);
+    const res = await createShare(inputObj);
+    console.log('--->', getSession.mock.calls);
+
+    expect(mockRun).toBeCalled();
+    //expect(mockRun).toBeCalledWith(inputObj);
+    expect(mockClose).toBeCalled();
+    expect(res).toBe(runRet);
+
     // expect(res).toBe('-done-');
     // expect(run).toHaveBeenCalled(); // With(inputObj);
     // expect(close).toHaveBeenCalled();

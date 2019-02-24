@@ -1,5 +1,5 @@
 import { getSession } from '../connection.js';
-const session = getSession();
+
 export const createShare = async ({
   tenantRefId,
   sharerRefId,
@@ -7,7 +7,7 @@ export const createShare = async ({
   assetRefId,
   recipients,
 }) => {
-  
+  const session = getSession();
   console.log('aeaeae', session);
   const result = await session.run(
     'MERGE (org:Organization {orgRefId: {tenantRefId}}) ' +
