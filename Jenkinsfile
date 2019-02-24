@@ -34,11 +34,11 @@ pipeline {
       }
     }
     stage('Deploy') {
-      when {
-        expression {
-          currentBuild.result == null || currentBuild.result == 'SUCCESS' 
-        }
-      }
+      // when {
+      //   expression {
+      //     currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+      //   }
+      // }
       steps {
         echo 'Deploying, but where...?'
         sleep time: 10, unit: 'MINUTES'
