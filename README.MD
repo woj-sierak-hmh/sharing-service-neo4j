@@ -49,6 +49,7 @@ Notes:
 - [env vars handling](https://medium.com/the-node-js-collection/making-your-node-js-work-everywhere-with-environment-variables-2da8cdf6e786)
 - [loading .env via babel plugin] https://github.com/motdotla/dotenv/issues/133
 - [Jest mocks explained](https://medium.com/@rickhanlonii/understanding-jest-mocks-f0046c68e53c)
+- [Jest cheat-sheet](https://github.com/sapegin/jest-cheat-sheet/blob/master/Readme.md)
 
 ## Handy tips
 

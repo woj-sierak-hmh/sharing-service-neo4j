@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`shares createShare 1`] = `"MERGE (org:Organization {orgRefId: {tenantRefId}}) MERGE (asset:Asset {assetRefId: {assetRefId}, assetType: {assetType}, isActive: \\"true\\"}) MERGE (org)-[:MASTER_OF]->(asset) MERGE (creator:User {userRefId: {sharerRefId}}) MERGE (creator)-[:CREATOR_OF]->(asset) FOREACH (ref IN {recipients} |   MERGE (recipient:User {userRefId: ref})   MERGE (asset)-[:SHARED_WITH {type:\\"READ\\", createdDate: $createdDate}]->(recipient))"`;
+
+exports[`shares createShare 2`] = `
+Object {
+  "assetRefId": "assetRefId",
+  "assetType": "assetType",
+  "createdDate": Any<String>,
+  "recipients": "recipients",
+  "sharerRefId": "sharerRefId",
+  "tenantRefId": "tenantRefId",
+}
+`;
