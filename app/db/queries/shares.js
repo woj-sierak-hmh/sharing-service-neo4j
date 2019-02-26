@@ -34,6 +34,7 @@ export const createShare = async ({
 };
 
 export const getShares = async ({ tenantRefId, userRefId, assetType }) => {
+  const session = getSession();
   const results = await session.run(
     'MATCH (:User {userRefId: {userRefId}})<-[share:SHARED_WITH]-(asset:Asset {assetType: {assetType}})<-[:MASTER_OF]-(:Organization {orgRefId: {tenantRefId}}) ' +
       'WITH share, asset ' +

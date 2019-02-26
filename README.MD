@@ -40,7 +40,7 @@ In order of priority:
 - [x] Add linter and prettier and use precommit hooks
 - [x] Refactor koa app, organize routes, create db abstraction
 - [ ] Add CI with Jenkins pipeline
-- [ ] Add unit / functional / integration tests
+- [ ] Add unit / functional / integration tests + coverage reports
 
 Notes:
 - [x] Tests should be independent from each other - use beforeAll/Each to populate db with seed data

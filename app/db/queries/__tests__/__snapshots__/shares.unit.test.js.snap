@@ -12,3 +12,37 @@ Object {
   "tenantRefId": "tenantRefId",
 }
 `;
+
+exports[`shares getShares 1`] = `
+Array [
+  "MATCH (:User {userRefId: {userRefId}})<-[share:SHARED_WITH]-(asset:Asset {assetType: {assetType}})<-[:MASTER_OF]-(:Organization {orgRefId: {tenantRefId}}) WITH share, asset MATCH (asset)<-[:CREATOR_OF]-(owner:User) RETURN asset.assetRefId AS assetRefId, asset.assetType AS assetType, share.createdDate AS shareDate, owner.userRefId AS sharerRefId ORDER BY shareDate DESC",
+  Object {
+    "assetType": "assetType",
+    "tenantRefId": "tenantRefId",
+    "userRefId": "userRefId",
+  },
+]
+`;
+
+exports[`shares getShares 2`] = `
+Array [
+  Object {
+    "assetRefId": "assetRefId0",
+    "assetType": "assetType0",
+    "shareDate": "shareDate0",
+    "shareRefId": "sharerRefId0",
+  },
+  Object {
+    "assetRefId": "assetRefId1",
+    "assetType": "assetType1",
+    "shareDate": "shareDate1",
+    "shareRefId": "sharerRefId1",
+  },
+  Object {
+    "assetRefId": "assetRefId2",
+    "assetType": "assetType2",
+    "shareDate": "shareDate2",
+    "shareRefId": "sharerRefId2",
+  },
+]
+`;

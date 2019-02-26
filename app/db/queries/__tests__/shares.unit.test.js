@@ -1,8 +1,10 @@
+// $ npm run test:unit -- -- app/db/queries/__tests__/shares.unit.test.js
+
 import { getSession } from '../../connection.js';
-import { createShare } from '../shares.js';
+import { createShare, getShares } from '../shares.js';
 
 const runRet = { foo: 'bar' };
-const mockRun = jest.fn(() => runRet);
+let mockRun;
 const mockClose = jest.fn();
 
 jest.mock('../../connection.js', () => {
@@ -19,18 +21,14 @@ jest.mock('../../connection.js', () => {
 describe('shares', () => {
   beforeAll(() => {
     getSession.mockClear();
-    // getSession.mockImplementation(() => {
-    //   return {
-    //     run: mockRun,
-    //     close: mockClose,
-    //   };
-    // });
-    //console.log(getSession);
   });
+
   afterEach(() => {
-    // getSession.mockClear();
+    getSession.mockClear();
   });
+
   test('createShare', async () => {
+    mockRun = jest.fn(() => Promise.resolve(runRet));
     const inputObj = {
       tenantRefId: 'tenantRefId',
       sharerRefId: 'sharerRefId',
@@ -40,10 +38,8 @@ describe('shares', () => {
     };
 
     const res = await createShare(inputObj);
-    console.log('--->', getSession.mock.calls);
 
     expect(mockRun).toBeCalled();
-    console.log('aa->', mockRun.mock.calls[0]);
     expect(mockRun.mock.calls[0][0]).toMatchSnapshot();
     expect(mockRun.mock.calls[0][1]).toMatchSnapshot({
       createdDate: expect.any(String),
@@ -51,9 +47,25 @@ describe('shares', () => {
 
     expect(mockClose).toBeCalled();
     expect(res).toBe(runRet);
+  });
 
-    // expect(res).toBe('-done-');
-    // expect(run).toHaveBeenCalled(); // With(inputObj);
-    // expect(close).toHaveBeenCalled();
+  test('getShares', async () => {
+    const dbRetObj = i => ({
+      get: v => v + i,
+    });
+    mockRun = jest.fn().mockResolvedValue({
+      records: [dbRetObj(0), dbRetObj(1), dbRetObj(2)],
+    });
+    const inputObj = {
+      tenantRefId: 'tenantRefId',
+      userRefId: 'userRefId',
+      assetType: 'assetType',
+    };
+    // we should return a promise from the mock
+    const res = await getShares(inputObj);
+
+    expect(mockRun.mock.calls[0]).toMatchSnapshot();
+    expect(mockClose).toBeCalled();
+    expect(res).toMatchSnapshot();
   });
 });
