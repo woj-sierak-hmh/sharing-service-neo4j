@@ -61,7 +61,6 @@ describe('shares', () => {
       userRefId: 'userRefId',
       assetType: 'assetType',
     };
-    // we should return a promise from the mock
     const res = await getShares(inputObj);
 
     expect(mockRun.mock.calls[0]).toMatchSnapshot();
