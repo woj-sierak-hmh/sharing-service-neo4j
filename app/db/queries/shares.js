@@ -8,7 +8,6 @@ export const createShare = async ({
   recipients,
 }) => {
   const session = getSession();
-  // console.log('aeaeae', session);
   const result = await session.run(
     'MERGE (org:Organization {orgRefId: {tenantRefId}}) ' +
       'MERGE (asset:Asset {assetRefId: {assetRefId}, assetType: {assetType}, isActive: "true"}) ' +

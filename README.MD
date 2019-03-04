@@ -50,6 +50,7 @@ Notes:
 - [loading .env via babel plugin] https://github.com/motdotla/dotenv/issues/133
 - [Jest mocks explained](https://medium.com/@rickhanlonii/understanding-jest-mocks-f0046c68e53c)
 - [Jest cheat-sheet](https://github.com/sapegin/jest-cheat-sheet/blob/master/Readme.md)
+- [Unit testing routes in express](https://medium.com/@jodylecompte/express-routes-a-tdd-approach-1e12a0799352)
 
 ## Handy tips
 

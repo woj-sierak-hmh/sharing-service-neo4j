@@ -4,7 +4,7 @@ import koaBunyanLogger from 'koa-bunyan-logger';
 
 import log from './utils/logger.js';
 
-import sharesRoutes from './routes/shares.js';
+import routes from './routes/index.js';
 
 const app = new Koa();
 app.use(bodyParser());
@@ -22,8 +22,8 @@ app.use(
   })
 );
 
-app.use(sharesRoutes.routes());
+app.use(routes.routes());
 // responds to OPTIONS requests
-app.use(sharesRoutes.allowedMethods());
+app.use(routes.allowedMethods());
 
 export default app;
