@@ -17,7 +17,10 @@
     "test:int:create": "jest createShares.int.test.js -i --projects test/int",
     "test:int:get": "jest getAssetsSharedWithMe.int.test.js -i --projects test/int",
     "test:unit:ci": "jest --verbose true --ci --testResultsProcessor=\"jest-junit\" --projects app/",
-    "test:unit": "jest --verbose true --coverage --projects app/",
+    "test:unit": "jest --verbose true --projects app/",
+    "test:unit:coverage": "npm run test:unit -- --coverage",
+    "test:unit:coverage1": "jest --verbose true --coverage --projects app/",
+    "test:unit:watch": "npm run test:unit -- --watchAll",
     "db:prepdata": "node test/int/utils/prepData.js"
   },
   "husky": {

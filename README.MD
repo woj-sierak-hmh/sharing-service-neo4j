@@ -62,6 +62,10 @@ Notes:
 $ npm run test:unit -- -- app/db/__tests__/connection.unit.test.js
 ```
 
+```bash
+$ npm run test:unit:watch -- -- app/db/__tests__/connection.unit.test.js
+```
+
 #### Get console.log output in jest report
 
 Add `--verbose` flag when running jest
