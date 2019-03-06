@@ -8,6 +8,7 @@ export const createShare = async ({
   recipients,
 }) => {
   const session = getSession();
+  // TODO: this should be wrapped in try/catch
   const result = await session.run(
     'MERGE (org:Organization {orgRefId: {tenantRefId}}) ' +
       'MERGE (asset:Asset {assetRefId: {assetRefId}, assetType: {assetType}, isActive: "true"}) ' +

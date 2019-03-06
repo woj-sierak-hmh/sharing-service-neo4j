@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`shares routes createShare db failure 1`] = `
+Array [
+  Array [
+    "ctx.request.body:",
+    Object {
+      "recipientRefIds": Array [
+        "teacherA2",
+        "teacherA3B1",
+      ],
+    },
+  ],
+  Array [
+    "recipientRefIds:",
+    Array [
+      "teacherA2",
+      "teacherA3B1",
+    ],
+  ],
+]
+`;
+
+exports[`shares routes createShare db failure 2`] = `"Apparently something went wrong...123"`;
+
+exports[`shares routes createShare success 1`] = `
+Array [
+  Array [
+    "ctx.request.body:",
+    Object {
+      "recipientRefIds": Array [
+        "teacherA2",
+        "teacherA3B1",
+      ],
+    },
+  ],
+  Array [
+    "recipientRefIds:",
+    Array [
+      "teacherA2",
+      "teacherA3B1",
+    ],
+  ],
+  Array [
+    "--------------->",
+    Object {
+      "assetRefId": "plan2",
+      "assetType": "PLAN",
+      "createdDate": "2019-03-05T21:51:50.609Z",
+      "recipients": Array [
+        "teacherA1",
+        "teacherA2",
+      ],
+      "sharerRefId": "teacherA3B1",
+      "tenantRefId": "districtA",
+    },
+  ],
+]
+`;

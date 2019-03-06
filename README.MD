@@ -41,6 +41,7 @@ In order of priority:
 - [x] Refactor koa app, organize routes, create db abstraction
 - [ ] Add CI with Jenkins pipeline
 - [ ] Add unit / functional / integration tests + coverage reports
+- [ ] Ensure correct error handling is in place
 
 Notes:
 - [x] Tests should be independent from each other - use beforeAll/Each to populate db with seed data
@@ -63,7 +64,7 @@ $ npm run test:unit -- -- app/db/__tests__/connection.unit.test.js
 ```
 
 ```bash
-$ npm run test:unit:watch -- -- app/db/__tests__/connection.unit.test.js
+$ npm run test:unit:watch -- app/routes/__tests__/shares.unit.test.js
 ```
 
 #### Get console.log output in jest report
