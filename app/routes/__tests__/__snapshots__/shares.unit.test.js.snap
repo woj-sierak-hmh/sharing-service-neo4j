@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`shares routes createShare db failure 1`] = `
+exports[`shares routes createShare createShare db error 1`] = `
 Array [
   Array [
     "ctx.request.body:",
@@ -21,9 +21,9 @@ Array [
 ]
 `;
 
-exports[`shares routes createShare db failure 2`] = `"Apparently something went wrong...123"`;
+exports[`shares routes createShare createShare db error 2`] = `"Apparently something went wrong...123"`;
 
-exports[`shares routes createShare success 1`] = `
+exports[`shares routes createShare createShare success 1`] = `
 Array [
   Array [
     "ctx.request.body:",
@@ -53,6 +53,34 @@ Array [
       ],
       "sharerRefId": "teacherA3B1",
       "tenantRefId": "districtA",
+    },
+  ],
+]
+`;
+
+exports[`shares routes getShares getShares db error 1`] = `
+Array [
+  Array [
+    "params-->",
+    Object {
+      "assetType": "PLAN",
+      "tenantRefId": "districtA",
+      "userRefId": "teacherA2",
+    },
+  ],
+]
+`;
+
+exports[`shares routes getShares getShares db error 2`] = `"Apparently something went wrong...123"`;
+
+exports[`shares routes getShares getShares success 1`] = `
+Array [
+  Array [
+    "params-->",
+    Object {
+      "assetType": "PLAN",
+      "tenantRefId": "districtA",
+      "userRefId": "teacherA2",
     },
   ],
 ]
